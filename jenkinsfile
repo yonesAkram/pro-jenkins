@@ -1,23 +1,27 @@
-
-pipeline{
+pipeline {
     agent any
+
     stages {
-        stage('x') {
+        stage('Build') {
             steps {
-                script{
-                    def myVaraible = "Hello, Akram I need features in Cloud"
-                    echo "Value of my myVaraible: ${myVaraible}" 
-                }
+                echo 'Building...'
             }
         }
-        stage('y') {
-            steps{
-                script{
-                    def myVaraible = "Hello, Akram I need features in Cloud"
-                    echo "Value of my myVaraible: ${myVaraible}"                     
-                }
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
             }
         }
-        stage('z') {}
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application...'
+            }
+        }
+        stage('z') {
+            steps {
+                echo 'مرحبا من داخل stage z'
+            }
+        }
     }
 }
+
