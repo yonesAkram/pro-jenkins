@@ -1,0 +1,23 @@
+
+pipeline{
+    agent any
+    stages {
+        stage('x') {
+            steps {
+                script{
+                    def myVaraible = "Hello, Akram I need features in Cloud"
+                    echo "Value of my myVaraible: ${myVaraible}" 
+                }
+            }
+        }
+        stage('y') {
+            steps{
+                script{
+                    def myVaraible = "Hello, Akram I need features in Cloud"
+                    echo "Value of my myVaraible: ${myVaraible}"                     
+                }
+            }
+        }
+        stage('z') {}
+    }
+}
