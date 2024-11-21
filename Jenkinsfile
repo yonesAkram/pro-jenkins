@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
         stages{
             stage('Build'){
                 steps{
@@ -10,7 +9,7 @@ pipeline {
             stage('Test'){
                 steps{
                     script{
-                        def myvar = "Hello World!!"
+                        def myvar = "Goodbye, World"
 
                         if (myvar == "Hello World!!"){
 
@@ -21,10 +20,29 @@ pipeline {
                             echo "Ok Condition false Condition is neither true nor false"
                         }    
                     }
-                    echo 'Ok surprises To Runing test'
-                
+                    echo 'Ok surprises To Runing test'                
+                }
+            }
+            stage('for Loop'){
+                steps{
+                    script{
+                        for (int i =0;1 < 5; i++){
+                            echo "Iteration ${i}"
+                        }
+                    }
+                }
+            }
+            stage('for loop'){
+                steps{
+                    script{
+                        def mylist=["apple", "orange","bluepery" , "Banana", "watermilon"]
+
+                        for(String fruit : mylist){
+                            echo "Fruit==> ${fruit}"
+                        }
+                    }
                 }
             }
 
-        }
+        }   
 }
