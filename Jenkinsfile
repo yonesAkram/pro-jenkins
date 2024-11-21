@@ -26,7 +26,8 @@ pipeline {
             stage('for Loop'){
                 steps{
                     script{
-                        for (int i =0;1 < 5; i++){
+                        
+                        for (int i =0; 1 < 5; i++){
                             echo "Iteration ${i}"
                         }
                     }
