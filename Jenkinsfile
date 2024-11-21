@@ -15,7 +15,7 @@ pipeline {
                         if (myvar == "Hello World!!"){
 
                             echo"value Of myvariable:${myvar} Condition true"
-                        }elseif(myvar == "Goodbye, World"){
+                        }else if(myvar == "Goodbye, World"){
 
                         }else{
                             echo "Ok Condition false Condition is neither true nor false"
