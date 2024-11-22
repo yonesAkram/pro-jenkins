@@ -8,8 +8,9 @@ pipeline {
             stage('print OutPut'){
                 steps{
                     script{
-                        def name = parames.NAME
-                        def experience = parames.EXPERIENCE
+                        
+                        def name = params.NAME
+                        def experience = params.EXPERIENCE
                         echo "Your name is ${name} and you have ${experience} Years of Experience"
                     }//script
                 }//steps('print output')
@@ -41,7 +42,7 @@ pipeline {
                 steps{
                     script{
                         
-                        for (int i = 0; 1 <= 5; i++){
+                        for (int i = 0; 1 < 5; i++){
                             echo "Iteration ${i}"
                         }//for
                     }//"for Loop"steps{ script}
