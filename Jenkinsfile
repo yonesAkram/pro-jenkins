@@ -1,68 +1,89 @@
 pipeline {
     agent any
-        parameters{
-            string(name: 'NAME', defaultValue: '', description: 'Enter your name')
-            choice(name: 'EXPERIENCE', choices: ['less than 1', '+1', '+2', '+3','+4'], description: 'Select your experience')
-        }//parameters        
-        stages{
-            stage('print OutPut'){
-                steps{
-                    script{
-                        
-                        def name = params.NAME
-                        def experience = params.EXPERIENCE
-                        echo "Your name is ${name} and you have ${experience} Years of Experience"
-                    }//script
-                }//steps('print output')
 
-            }//stage('print OutPut')
-            stage('Build'){
-                steps{
-                    echo 'Building Please wait to srtong run Jenkins'
-                }//steps
-            }//stage('Build'){
-            stage('Test'){
-                steps{
-                    script{
-                        def myvar = "Goodbye, World"
+    parameters {
+        string(name: 'FILE_CONTENT', defaultValue: 'Hello, Jenkins!', description: 'Enter the content for the file')
+        choice(name: 'DEPLOY_ENV', choices: ['Development', 'Staging', 'Production'], description: 'Select the deployment environment')
+        string(name: 'NAME', defaultValue: '', description: 'Enter your name')
+        choice(name: 'EXPERIENCE', choices: ['less than 1', '+1', '+2', '+3', '+4'], description: 'Select your experience')
+    }
 
-                        if (myvar == "Hello World!!"){
+    stages {
+        stage('Print Output') {
+            steps {
+                script {
+                    def name = params.NAME
+                    def experience = params.EXPERIENCE
+                    echo "Your name is ${name} and you have ${experience} years of experience"
+                }
+            }
+        }
 
-                            echo"value Of myvariable:${myvar} Condition true"
-                        }else if(myvar == "Goodbye, World"){
+        stage('Setup File') {
+            steps {
+                script {
+                    def fileContent = params.FILE_CONTENT
+                    writeFile file: 'myfile.txt', text: fileContent
+                    echo "File 'myfile.txt' created with content: ${fileContent}"
+                }
+            }
+        }
 
-                        }else{
-                            echo "Ok Condition false Condition is neither true nor false"
-                        }//else{    
-                    }//script
-                    echo 'Ok surprises To Runing test'                
-                }// stage('Test'){ steps{
-            }//stage('Test'){
-            stage('for Loop'){
-                steps{
-                    script{
-                        
-                        for (int i = 1; i <= 5; i++){
-                            echo "Iteration ${i}"
-                        }//for
-                    }//"for Loop"steps{ script}
-                }//stage"for Loop" steps{
-            }//stage('for Loop'){
-            stage('for loop List'){
-                steps{
-                    script{
-                        def mylist=["apple", "orange","bluepery" , "Banana", "watermilon"]
+        stage('Test File Content') {
+            steps {
+                script {
+                    def fileContent = readFile('myfile.txt').trim()
+                    if (fileContent == params.FILE_CONTENT) {
+                        echo "Test passed: Content '${fileContent}' matches the parameter."
+                    } else {
+                        error "Test failed: Content in file does not match parameter!"
+                    }
+                }
+            }
+        }
 
-                        for(String fruit : mylist){
-                            echo "Fruit==> ${fruit}"
-                        }//for(String fruit : mylist){
-                    }//stage('for loop list'){
-                }//stage('for loop'){ steps Sound core R50i
-            }//stage('for loop List'){
+        stage('For Loop Example') {
+            steps {
+                script {
+                    for (int i = 1; i <= 5; i++) {
+                        echo "Iteration ${i}"
+                    }
+                }
+            }
+        }
 
+        stage('For Loop List') {
+            steps {
+                script {
+                    def mylist = ["apple", "orange", "blueberry", "banana", "watermelon"]
+                    for (String fruit : mylist) {
+                        echo "Fruit ==> ${fruit}"
+                    }
+                }
+            }
+        }
 
-        }//Stages{}
+        stage('Deploy') {
+            steps {
+                script {
+                    def environment = params.DEPLOY_ENV
+                    echo "Starting deployment to ${environment} environment..."
+                    sleep(time: 2, unit: 'SECONDS')
+                    echo "Deployment to ${environment} completed successfully!"
+                }
+            }
+        }
+    }
 
-
-           
-    }//pipeline{}
+    post {
+        always {
+            echo 'Pipeline execution completed!'
+        }
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
